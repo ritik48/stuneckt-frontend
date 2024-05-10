@@ -10,4 +10,16 @@ const getPosts = async () => {
     return data;
 };
 
-export { getPosts };
+const createPost = async (content: string) => {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    const res = await fetch(`${BACKEND}/post`, {
+        method: "POST",
+        body: JSON.stringify({ content }),
+    });
+
+    const data = await res.json();
+
+    return data;
+};
+
+export { getPosts, createPost };
