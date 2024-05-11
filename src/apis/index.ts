@@ -1,8 +1,8 @@
 const BACKEND = "http://127.0.0.1:3000";
 
-const getPosts = async () => {
+const getPosts = async (page: number, limit: number) => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    const res = await fetch(`${BACKEND}/post`, {
+    const res = await fetch(`${BACKEND}/post?page=${page}&limit=${limit}`, {
         method: "GET",
     });
     const data = await res.json();

@@ -1,43 +1,18 @@
-import { Container,Typography } from "@mui/material";
-import { useEffect, useState } from "react";
-import { getPosts } from "../apis";
+import { Container, Typography } from "@mui/material";
 import PostCard from "../components/Cards";
-import { Post } from "../types";
 import { Masonry } from "@mui/lab";
+import { Paginate } from "../components/Paginate";
+import { usePost } from "../contexts/PostContext";
 
 export default function Home() {
-    const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string>("");
-    const [posts, setPosts] = useState<Post[]>([]);
-
-    useEffect(() => {
-        const fetchPosts = async () => {
-            try {
-                setLoading(true);
-                const data = await getPosts();
-
-                if (!data.success) {
-                    setError(data.message);
-                    return;
-                }
-
-                setPosts(data.posts);
-                setLoading(false);
-            } catch (e) {
-                setError((e as Error).message);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchPosts();
-    }, []);
+    const { loading, posts, error, total, limit, page } = usePost();
 
     return (
-        <Container sx={{ marginTop: "20px" }}>
+        <Container sx={{ marginTop: "20px", border: "1px solid red" }}>
             <Typography variant="h5" fontWeight={"bold"}>
                 All Posts
             </Typography>
+            <Typography color={"grey"}>Total : {total} results</Typography>
             {loading && (
                 <Typography
                     sx={{ marginTop: "20px" }}
@@ -57,18 +32,26 @@ export default function Home() {
                     {error}
                 </Typography>
             )}
-            <Masonry columns={{ xs: 1, sm: 3 }} sx={{marginTop: 2}} spacing={2}>
-                {posts.map((post) => {
-                    return (
-                        <PostCard
-                            content={post.content}
-                            author={post.author}
-                            createdAt={post.createdAt}
-                            _id={post._id}
-                        />
-                    );
-                })}
-            </Masonry>
+            {!loading && (
+                <Masonry
+                    columns={{ xs: 1, sm: 3 }}
+                    sx={{ marginTop: 2 }}
+                    spacing={2}
+                >
+                    {posts.map((post) => {
+                        return (
+                            <PostCard
+                                key={post._id}
+                                content={post.content}
+                                author={post.author}
+                                createdAt={post.createdAt}
+                                _id={post._id}
+                            />
+                        );
+                    })}
+                </Masonry>
+            )}
+            <Paginate totalPosts={total} limit={limit} page={page} />
         </Container>
     );
 }

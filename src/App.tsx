@@ -5,6 +5,7 @@ import Create from "./pages/Create";
 import { Signup } from "./pages/Signup";
 import { Login } from "./pages/Login";
 import { UserProvider, useUser } from "./contexts/UserContext";
+import { PostProvider } from "./contexts/PostContext";
 
 function App() {
     useUser();
@@ -12,14 +13,16 @@ function App() {
     return (
         <BrowserRouter>
             <UserProvider>
-                <Routes>
-                    <Route path="/" element={<Layout />}>
-                        <Route index element={<Home />} />
-                        <Route path="/create" element={<Create />} />
-                        <Route path="/signup" element={<Signup />} />
-                        <Route path="/login" element={<Login />} />
-                    </Route>
-                </Routes>
+                <PostProvider>
+                    <Routes>
+                        <Route path="/" element={<Layout />}>
+                            <Route index element={<Home />} />
+                            <Route path="/create" element={<Create />} />
+                            <Route path="/signup" element={<Signup />} />
+                            <Route path="/login" element={<Login />} />
+                        </Route>
+                    </Routes>
+                </PostProvider>
             </UserProvider>
         </BrowserRouter>
     );
