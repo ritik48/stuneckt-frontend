@@ -14,6 +14,10 @@ const createPost = async (content: string) => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
     const res = await fetch(`${BACKEND}/post`, {
         method: "POST",
+        headers: {
+            "Content-type": "application/json",
+        },
+        credentials: "include",
         body: JSON.stringify({ content }),
     });
 
