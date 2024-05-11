@@ -8,7 +8,14 @@ export default function Home() {
     const { loading, posts, error, total, limit, page } = usePost();
 
     return (
-        <Container sx={{ marginTop: "20px", border: "1px solid red" }}>
+        <Container
+            sx={{
+                marginTop: "20px",
+                flexGrow: 1,
+                display: "flex",
+                flexDirection: "column",
+            }}
+        >
             <Typography variant="h5" fontWeight={"bold"}>
                 All Posts
             </Typography>

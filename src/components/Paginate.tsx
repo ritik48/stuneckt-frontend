@@ -17,8 +17,9 @@ export function Paginate({ totalPosts, limit, page }: PaginateProp) {
         <Pagination
             sx={{
                 display: "flex",
-                justifyContent: "center",
                 marginBlock: 3,
+                marginTop: "auto",
+                justifyContent: "center",
             }}
             page={page}
             onChange={handleChange}

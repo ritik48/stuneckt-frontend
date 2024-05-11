@@ -5,7 +5,13 @@ import { Toaster } from "react-hot-toast";
 
 export default function Layout() {
     return (
-        <Container>
+        <Container
+            sx={{
+                height: "100vh",
+                display: "flex",
+                flexDirection: "column",
+            }}
+        >
             <ResponsiveAppBar />
             <Outlet />
             <Toaster />
