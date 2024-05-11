@@ -96,18 +96,30 @@ function ResponsiveAppBar() {
                         }}
                     >
                         <MenuItem key={"post"} onClick={handleCloseNavMenu}>
-                            <NavLink to={`/`}>
+                            <Link
+                                to={`/`}
+                                style={{
+                                    textDecoration: "none",
+                                    color: "black",
+                                }}
+                            >
                                 <Typography textAlign="center">
                                     {"Posts"}
                                 </Typography>
-                            </NavLink>
+                            </Link>
                         </MenuItem>
                         <MenuItem key={"Create"} onClick={handleCloseNavMenu}>
-                            <NavLink to={`/create`}>
+                            <Link
+                                to={`/create`}
+                                style={{
+                                    textDecoration: "none",
+                                    color: "black",
+                                }}
+                            >
                                 <Typography textAlign="center">
                                     {"Create"}
                                 </Typography>
-                            </NavLink>
+                            </Link>
                         </MenuItem>
                     </Menu>
                 </Box>
@@ -153,11 +165,6 @@ function ResponsiveAppBar() {
 
                 <Box sx={{ flexGrow: 0, display: "flex", gap: 2 }}>
                     <Box sx={{ display: "flex", gap: 2 }}>
-                        {loading && (
-                            <Typography variant="h6" sx={{ my: 2 }}>
-                                Loading ...
-                            </Typography>
-                        )}
                         {!user && !loading && (
                             <>
                                 <NavLink

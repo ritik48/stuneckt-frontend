@@ -1,15 +1,25 @@
-import { Avatar, Box, Container, Stack, Typography } from "@mui/material";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import {
+    Avatar,
+    Box,
+    Button,
+    Container,
+    Stack,
+    Typography,
+} from "@mui/material";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { red } from "@mui/material/colors";
 import { useEffect, useState } from "react";
 import { User } from "../types";
 import { getUserData } from "../apis";
 import { Masonry } from "@mui/lab";
 import PostCard from "../components/Cards";
+import { useUser } from "../contexts/UserContext";
 
 function UserProfile() {
     const [searchParams] = useSearchParams();
     const userId = searchParams.get("id");
+
+    const { user: loggedInUser } = useUser();
 
     const navigate = useNavigate();
 
@@ -88,6 +98,16 @@ function UserProfile() {
                                     <Typography variant="h5">
                                         {user?.username}
                                     </Typography>
+                                    {user?._id === loggedInUser?._id && (
+                                        <Link to={`/edit`}>
+                                            <Button
+                                                variant="outlined"
+                                                size="small"
+                                            >
+                                                Edit Profile
+                                            </Button>
+                                        </Link>
+                                    )}
                                 </Stack>
                             </Stack>
                             <Stack spacing={2}>
