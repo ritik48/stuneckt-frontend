@@ -1,8 +1,9 @@
-import { Container, Grid, Typography } from "@mui/material";
+import { Container,Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getPosts } from "../apis";
 import PostCard from "../components/Cards";
 import { Post } from "../types";
+import { Masonry } from "@mui/lab";
 
 export default function Home() {
     const [loading, setLoading] = useState<boolean>(false);
@@ -56,22 +57,18 @@ export default function Home() {
                     {error}
                 </Typography>
             )}
-            <Grid container spacing={2} sx={{ marginTop: "20px" }}>
-                {!loading &&
-                    posts.length > 0 &&
-                    posts.map((post) => {
-                        return (
-                            <Grid item xs={4} key={post._id}>
-                                <PostCard
-                                    content={post.content}
-                                    author={post.author}
-                                    createdAt={post.createdAt}
-                                    _id={post._id}
-                                />
-                            </Grid>
-                        );
-                    })}
-            </Grid>
+            <Masonry columns={{ xs: 1, sm: 3 }} sx={{marginTop: 2}} spacing={2}>
+                {posts.map((post) => {
+                    return (
+                        <PostCard
+                            content={post.content}
+                            author={post.author}
+                            createdAt={post.createdAt}
+                            _id={post._id}
+                        />
+                    );
+                })}
+            </Masonry>
         </Container>
     );
 }
