@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { Post } from "../types";
-import { getPosts } from "../apis";
+import { createPost, getPosts } from "../apis";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 interface ValueProp {
     posts: Post[] | [];
@@ -11,6 +13,7 @@ interface ValueProp {
     total: number;
     limit: number;
     fetchPosts: (page: number) => Promise<void>;
+    addPost: (content: string) => Promise<void>;
 }
 
 const PostContext = createContext<ValueProp>({
@@ -22,6 +25,7 @@ const PostContext = createContext<ValueProp>({
     limit: 5,
     changePage: () => {},
     fetchPosts: async () => {},
+    addPost: async () => {},
 });
 
 interface PropType {
@@ -36,6 +40,8 @@ const PostProvider = ({ children }: PropType) => {
     const [page, setPage] = useState<number>(1);
 
     const [total, setTotal] = useState<number>(0);
+
+    const navigate = useNavigate();
 
     const limit = 5;
 
@@ -62,6 +68,20 @@ const PostProvider = ({ children }: PropType) => {
     const changePage = (p: number) => {
         setPage(p);
     };
+    const addPost = async (content: string) => {
+        const data = await createPost(content);
+
+        if (!data.success) {
+            toast.error(data.message);
+            return;
+        }
+
+        toast.success("Post created successfully");
+        console.log("psot   ", data.post);
+        setPosts((prev) => [...prev, data.post]);
+
+        navigate("/");
+    };
 
     useEffect(() => {
         fetchPosts(page);
@@ -70,6 +90,7 @@ const PostProvider = ({ children }: PropType) => {
     return (
         <PostContext.Provider
             value={{
+                addPost,
                 posts,
                 loading,
                 error,

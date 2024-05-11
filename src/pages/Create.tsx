@@ -1,29 +1,21 @@
 import { Button, Container, Stack, Typography } from "@mui/material";
 import TextArea from "../components/CustomTextarea";
-import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
-import { createPost } from "../apis";
 import { FormEvent, useState } from "react";
+import { usePost } from "../contexts/PostContext";
 
 export default function Create() {
+    const { addPost } = usePost();
+
     const [content, setContent] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
-    const navigate = useNavigate();
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
 
-        const data = await createPost(content);
+        await addPost(content);
 
         setLoading(false);
-        if (!data.success) {
-            toast.error(data.message);
-            return;
-        }
-
-        toast.success("Post created");
-        navigate("/");
     };
 
     return (
