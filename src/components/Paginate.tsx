@@ -10,7 +10,7 @@ interface PaginateProp {
 export function Paginate({ totalPosts, limit, page }: PaginateProp) {
     const totalPage = Math.ceil(totalPosts / limit);
     const { changePage } = usePost();
-    const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    const handleChange = (_event: React.ChangeEvent<unknown>, value: number) => {
         changePage(value);
     };
     return (
