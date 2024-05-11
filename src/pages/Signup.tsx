@@ -8,7 +8,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 
-export function Login() {
+export function Signup() {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -33,7 +33,7 @@ export function Login() {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Login
+                    Create Account
                 </Typography>
                 <Box
                     component="form"
@@ -68,7 +68,7 @@ export function Login() {
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
                     >
-                        Log In
+                        Sign In
                     </Button>
                 </Box>
             </Box>

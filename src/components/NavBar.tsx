@@ -4,16 +4,18 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
-import Container from "@mui/material/Container";
+// import Container from "@mui/material/Container";
+import MenuIcon from "@mui/icons-material/Menu";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-// import AdbIcon from "@mui/icons-material/Adb";
-import { MouseEvent, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import AdbIcon from "@mui/icons-material/Adb";
 
-const pages = ["posts", "create"];
+import { MouseEvent, useState } from "react";
+import { NavLink } from "react-router-dom";
+
+// const pages = ["posts", "create"];
 const settings = ["Profile", "Logout"];
 
 function ResponsiveAppBar() {
@@ -47,9 +49,7 @@ function ResponsiveAppBar() {
             }}
         >
             <Toolbar>
-                {/* <AdbIcon
-                        sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
-                    /> */}
+                <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
 
                 <Box
                     sx={{
@@ -65,7 +65,7 @@ function ResponsiveAppBar() {
                         onClick={handleOpenNavMenu}
                         color="inherit"
                     >
-                        {/* <MenuIcon /> */}
+                        <MenuIcon />
                     </IconButton>
                     <Menu
                         id="menu-appbar"
@@ -105,9 +105,7 @@ function ResponsiveAppBar() {
                         </MenuItem>
                     </Menu>
                 </Box>
-                {/* <AdbIcon
-                        sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
-                    /> */}
+                <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
                 <Typography
                     variant="h5"
                     noWrap
@@ -129,7 +127,12 @@ function ResponsiveAppBar() {
                 <Box
                     sx={{
                         flexGrow: 1,
-                        display: { xs: "none", md: "flex", gap: "20px" },
+                        display: {
+                            xs: "none",
+                            md: "flex",
+                            gap: "20px",
+                            // border: "1px solid red",
+                        },
                     }}
                 >
                     <NavLink to={`/`} style={{ textDecoration: "none" }}>
@@ -160,7 +163,43 @@ function ResponsiveAppBar() {
                     </NavLink>
                 </Box>
 
-                <Box sx={{ flexGrow: 0 }}>
+                <Box sx={{ flexGrow: 0, display: "flex", gap: 2 }}>
+                    <Box sx={{ display: "flex", gap: 2 }}>
+                        <NavLink
+                            to={`/login`}
+                            style={{ textDecoration: "none" }}
+                        >
+                            <Button
+                                key={"login"}
+                                onClick={handleCloseNavMenu}
+                                variant="contained"
+                                sx={{
+                                    my: 2,
+                                    display: "block",
+                                    color: "white",
+                                }}
+                            >
+                                {"Log In"}
+                            </Button>
+                        </NavLink>
+                        <NavLink
+                            to={`/signup`}
+                            style={{ textDecoration: "none" }}
+                        >
+                            <Button
+                                key={"signup"}
+                                variant="outlined"
+                                onClick={handleCloseNavMenu}
+                                sx={{
+                                    my: 2,
+                                    display: "block",
+                                    color: "black",
+                                }}
+                            >
+                                {"Sign up"}
+                            </Button>
+                        </NavLink>
+                    </Box>
                     <Tooltip title="Open settings">
                         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                             <Avatar
