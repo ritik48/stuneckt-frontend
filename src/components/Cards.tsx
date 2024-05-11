@@ -13,7 +13,7 @@ import { Post } from "../types";
 
 export default function PostCard({ content, author, createdAt, _id }: Post) {
     return (
-        <Card sx={{ maxWidth: 345, boxShadow: 2 }}>
+        <Card sx={{ maxWidth: 345, boxShadow: 2, backgroundColor: "#fafbfc" }}>
             <CardHeader
                 avatar={
                     <Avatar
