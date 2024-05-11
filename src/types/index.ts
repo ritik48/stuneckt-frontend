@@ -1,6 +1,8 @@
 interface User {
     username: string;
-    followers: string[];
+    followers: User[];
+    _id: string;
+    posts: Post[] | [];
 }
 
 interface Post {

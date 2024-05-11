@@ -26,6 +26,7 @@ const createPost = async (content: string) => {
     return data;
 };
 
+// TO GET THE LOGGED IN USER DETAILS
 const getUser = async () => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
     const res = await fetch(`${BACKEND}/user`, {
@@ -35,6 +36,48 @@ const getUser = async () => {
     const data = await res.json();
 
     return data;
+};
+
+// TO GET THE USER WITH A PARTICULAR ID
+const getUserData = async (id: string) => {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    let res = await fetch(`${BACKEND}/user/${id}`, {
+        method: "GET",
+        credentials: "include",
+    });
+
+    const userData = await res.json();
+
+    if (!userData.success) {
+        return userData;
+    }
+
+    // get followers
+    res = await fetch(`${BACKEND}/user/${id}/followers`, {
+        method: "GET",
+        credentials: "include",
+    });
+
+    const followersData = await res.json();
+
+    res = await fetch(`${BACKEND}/post/${id}`, {
+        method: "GET",
+        credentials: "include",
+    });
+
+    const postsData = await res.json();
+
+    const result = {
+        user: {
+            username: userData.user.username,
+            _id: userData.user._id,
+            followers: followersData.success ? followersData.followers : [],
+            posts: postsData.success ? postsData.posts : [],
+        },
+        success: true,
+    };
+
+    return result;
 };
 
 const userLogin = async (username: string, password: string) => {
@@ -78,4 +121,12 @@ const userLogout = async () => {
     return data;
 };
 
-export { getPosts, createPost, getUser, userLogin, userSignup, userLogout };
+export {
+    getPosts,
+    createPost,
+    getUser,
+    userLogin,
+    userSignup,
+    userLogout,
+    getUserData,
+};

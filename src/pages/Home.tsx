@@ -53,6 +53,7 @@ export default function Home() {
                                 author={post.author}
                                 createdAt={post.createdAt}
                                 _id={post._id}
+                                showProfile={true}
                             />
                         );
                     })}

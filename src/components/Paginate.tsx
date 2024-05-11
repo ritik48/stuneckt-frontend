@@ -21,6 +21,7 @@ export function Paginate({ totalPosts, limit, page }: PaginateProp) {
                 marginTop: "auto",
                 justifyContent: "center",
             }}
+            color="primary"
             page={page}
             onChange={handleChange}
             count={totalPage}
