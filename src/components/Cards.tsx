@@ -11,9 +11,7 @@ import ShareIcon from "@mui/icons-material/Share";
 import { formatDate } from "../utils";
 import { Post } from "../types";
 
-
-
-export default function PostCard({ content, author, createdAt }: Post) {
+export default function PostCard({ content, author, createdAt, _id }: Post) {
     return (
         <Card sx={{ maxWidth: 345, boxShadow: 2 }}>
             <CardHeader

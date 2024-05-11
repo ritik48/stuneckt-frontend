@@ -31,7 +31,7 @@ export default function Home() {
 
         fetchPosts();
     }, []);
-    console.log(posts);
+
     return (
         <Container sx={{ marginTop: "20px" }}>
             <Typography variant="h5" fontWeight={"bold"}>
@@ -61,11 +61,12 @@ export default function Home() {
                     posts.length > 0 &&
                     posts.map((post) => {
                         return (
-                            <Grid item xs={4}>
+                            <Grid item xs={4} key={post._id}>
                                 <PostCard
                                     content={post.content}
                                     author={post.author}
                                     createdAt={post.createdAt}
+                                    _id={post._id}
                                 />
                             </Grid>
                         );

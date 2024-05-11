@@ -7,15 +7,25 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import toast from "react-hot-toast";
+import { useUser } from "../contexts/UserContext";
 
 export function Signup() {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const { signup } = useUser();
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            username: data.get("username"),
-            password: data.get("password"),
-        });
+        const formData = new FormData(event.currentTarget);
+
+        const username = formData.get("username") as string;
+        const password = formData.get("password") as string;
+
+        if (!username || !password) {
+            toast.error("Username and password cannot be empty");
+            return;
+        }
+
+        await signup(username, password);
     };
 
     return (

@@ -1,4 +1,4 @@
-const BACKEND = "http://localhost:3000";
+const BACKEND = "http://127.0.0.1:3000";
 
 const getPosts = async () => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -22,4 +22,56 @@ const createPost = async (content: string) => {
     return data;
 };
 
-export { getPosts, createPost };
+const getUser = async () => {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    const res = await fetch(`${BACKEND}/user`, {
+        method: "GET",
+        credentials: "include",
+    });
+    const data = await res.json();
+
+    return data;
+};
+
+const userLogin = async (username: string, password: string) => {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    const res = await fetch(`${BACKEND}/user/login`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ username, password }),
+    });
+    const data = await res.json();
+
+    return data;
+};
+
+const userSignup = async (username: string, password: string) => {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    const res = await fetch(`${BACKEND}/user/signup`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ username, password }),
+    });
+    const data = await res.json();
+
+    return data;
+};
+
+const userLogout = async () => {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    const res = await fetch(`${BACKEND}/user/logout`, {
+        method: "POST",
+        credentials: "include",
+    });
+    const data = await res.json();
+
+    return data;
+};
+
+export { getPosts, createPost, getUser, userLogin, userSignup, userLogout };

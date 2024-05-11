@@ -13,12 +13,12 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 
 import { MouseEvent, useState } from "react";
-import { NavLink } from "react-router-dom";
-
-// const pages = ["posts", "create"];
-const settings = ["Profile", "Logout"];
+import { Link, NavLink } from "react-router-dom";
+import { useUser } from "../contexts/UserContext";
 
 function ResponsiveAppBar() {
+    const { user, loading, logout } = useUser();
+
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
@@ -35,6 +35,12 @@ function ResponsiveAppBar() {
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
+    };
+
+    const handleLogout = async () => {
+        setAnchorElUser(null);
+
+        await logout();
     };
 
     return (
@@ -165,77 +171,102 @@ function ResponsiveAppBar() {
 
                 <Box sx={{ flexGrow: 0, display: "flex", gap: 2 }}>
                     <Box sx={{ display: "flex", gap: 2 }}>
-                        <NavLink
-                            to={`/login`}
-                            style={{ textDecoration: "none" }}
-                        >
-                            <Button
-                                key={"login"}
-                                onClick={handleCloseNavMenu}
-                                variant="contained"
-                                sx={{
-                                    my: 2,
-                                    display: "block",
-                                    color: "white",
-                                }}
-                            >
-                                {"Log In"}
-                            </Button>
-                        </NavLink>
-                        <NavLink
-                            to={`/signup`}
-                            style={{ textDecoration: "none" }}
-                        >
-                            <Button
-                                key={"signup"}
-                                variant="outlined"
-                                onClick={handleCloseNavMenu}
-                                sx={{
-                                    my: 2,
-                                    display: "block",
-                                    color: "black",
-                                }}
-                            >
-                                {"Sign up"}
-                            </Button>
-                        </NavLink>
+                        {loading && (
+                            <Typography variant="h6" sx={{ my: 2 }}>
+                                Loading ...
+                            </Typography>
+                        )}
+                        {!user && !loading && (
+                            <>
+                                <NavLink
+                                    to={`/login`}
+                                    style={{ textDecoration: "none" }}
+                                >
+                                    <Button
+                                        key={"login"}
+                                        onClick={handleCloseNavMenu}
+                                        variant="contained"
+                                        sx={{
+                                            my: 2,
+                                            display: "block",
+                                            color: "white",
+                                        }}
+                                    >
+                                        {"Log In"}
+                                    </Button>
+                                </NavLink>
+                                <NavLink
+                                    to={`/signup`}
+                                    style={{ textDecoration: "none" }}
+                                >
+                                    <Button
+                                        key={"signup"}
+                                        variant="outlined"
+                                        onClick={handleCloseNavMenu}
+                                        sx={{
+                                            my: 2,
+                                            display: "block",
+                                            color: "black",
+                                        }}
+                                    >
+                                        {"Sign up"}
+                                    </Button>
+                                </NavLink>
+                            </>
+                        )}
                     </Box>
-                    <Tooltip title="Open settings">
-                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                            <Avatar
-                                sx={{ backgroundColor: "black" }}
-                                alt="Remy Sharp"
-                                src="/static/images/avatar/2.jpg"
-                            />
-                        </IconButton>
-                    </Tooltip>
-                    <Menu
-                        sx={{ mt: "45px" }}
-                        id="menu-appbar"
-                        anchorEl={anchorElUser}
-                        anchorOrigin={{
-                            vertical: "top",
-                            horizontal: "right",
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                            vertical: "top",
-                            horizontal: "right",
-                        }}
-                        open={Boolean(anchorElUser)}
-                        onClose={handleCloseUserMenu}
-                    >
-                        {settings.map((setting) => (
-                            <MenuItem
-                                key={setting}
-                                onClick={handleCloseUserMenu}
+                    {user && (
+                        <>
+                            <Tooltip title="Open settings">
+                                <IconButton
+                                    onClick={handleOpenUserMenu}
+                                    sx={{ p: 0 }}
+                                >
+                                    <Avatar
+                                        sx={{ backgroundColor: "black" }}
+                                        alt={`${user.username}`}
+                                        src="/static/images/avatar/2.jpg"
+                                    />
+                                </IconButton>
+                            </Tooltip>
+                            <Menu
+                                sx={{ mt: "45px" }}
+                                id="menu-appbar"
+                                anchorEl={anchorElUser}
+                                anchorOrigin={{
+                                    vertical: "top",
+                                    horizontal: "right",
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: "top",
+                                    horizontal: "right",
+                                }}
+                                open={Boolean(anchorElUser)}
+                                onClose={handleCloseUserMenu}
                             >
-                                <Typography textAlign="center">
-                                    {setting}
-                                </Typography>
-                            </MenuItem>
-                        ))}
-                    </Menu>
+                                <MenuItem
+                                    key={"profile"}
+                                    onClick={handleCloseUserMenu}
+                                >
+                                    <Link
+                                        style={{
+                                            textDecoration: "none",
+                                            color: "black",
+                                        }}
+                                        to={"/profile"}
+                                    >
+                                        Profile
+                                    </Link>
+                                </MenuItem>
+                                <MenuItem key={"logout"} onClick={handleLogout}>
+                                    <Typography textAlign="center">
+                                        {"Logout"}
+                                    </Typography>
+                                </MenuItem>
+                            </Menu>
+                        </>
+                    )}
                 </Box>
             </Toolbar>
         </AppBar>
