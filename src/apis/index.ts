@@ -1,7 +1,7 @@
-const BACKEND = "http://127.0.0.1:3000";
+// @ts-expect-error remove error
+const BACKEND = import.meta.env.VITE_BACKEND || "http://127.0.0.1:3000";
 
 const getPosts = async (page: number, limit: number) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
     const res = await fetch(`${BACKEND}/post?page=${page}&limit=${limit}`, {
         method: "GET",
     });
@@ -11,7 +11,6 @@ const getPosts = async (page: number, limit: number) => {
 };
 
 const createPost = async (content: string) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
     const res = await fetch(`${BACKEND}/post`, {
         method: "POST",
         headers: {
@@ -28,7 +27,6 @@ const createPost = async (content: string) => {
 
 // TO GET THE LOGGED IN USER DETAILS
 const getUser = async () => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
     const res = await fetch(`${BACKEND}/user`, {
         method: "GET",
         credentials: "include",
@@ -40,7 +38,6 @@ const getUser = async () => {
 
 // TO GET THE USER WITH A PARTICULAR ID
 const getUserData = async (id: string) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
     let res = await fetch(`${BACKEND}/user/${id}`, {
         method: "GET",
         credentials: "include",
@@ -81,7 +78,6 @@ const getUserData = async (id: string) => {
 };
 
 const userLogin = async (username: string, password: string) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
     const res = await fetch(`${BACKEND}/user/login`, {
         method: "POST",
         headers: {
@@ -96,7 +92,6 @@ const userLogin = async (username: string, password: string) => {
 };
 
 const userSignup = async (username: string, password: string) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
     const res = await fetch(`${BACKEND}/user/signup`, {
         method: "POST",
         headers: {
@@ -111,7 +106,6 @@ const userSignup = async (username: string, password: string) => {
 };
 
 const userLogout = async () => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
     const res = await fetch(`${BACKEND}/user/logout`, {
         method: "POST",
         credentials: "include",
@@ -122,8 +116,6 @@ const userLogout = async () => {
 };
 
 const userUpdate = async (data: { username?: string; password?: string }) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
     const res = await fetch(`${BACKEND}/user`, {
         method: "PATCH",
         credentials: "include",
