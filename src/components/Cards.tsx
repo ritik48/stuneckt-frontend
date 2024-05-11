@@ -16,6 +16,7 @@ export default function PostCard({
     _id,
     showProfile,
 }: Post & { showProfile: boolean }) {
+    console.log(_id[0]);
     return (
         <Card sx={{ maxWidth: 345, boxShadow: 2, backgroundColor: "#fafbfc" }}>
             <CardHeader
