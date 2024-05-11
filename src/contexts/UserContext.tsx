@@ -1,6 +1,12 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { User } from "../types";
-import { getUser, userLogin, userLogout, userSignup } from "../apis";
+import {
+    getUser,
+    userLogin,
+    userLogout,
+    userSignup,
+    userUpdate,
+} from "../apis";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -10,6 +16,13 @@ interface ValueProp {
     login: (username: string, password: string) => Promise<void>;
     signup: (username: string, password: string) => Promise<void>;
     logout: () => Promise<void>;
+    update: ({
+        username,
+        password,
+    }: {
+        username?: string;
+        password?: string;
+    }) => Promise<void>;
 }
 
 const UserContext = createContext<ValueProp>({
@@ -18,6 +31,7 @@ const UserContext = createContext<ValueProp>({
     login: async () => {},
     signup: async () => {},
     logout: async () => {},
+    update: async () => {},
 });
 
 interface PropType {
@@ -29,7 +43,6 @@ const UserProvider = ({ children }: PropType) => {
     const [loading, setLoading] = useState<boolean>(true);
 
     const navigate = useNavigate();
-    // const [error, setError] = useState<string>("");
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -72,6 +85,21 @@ const UserProvider = ({ children }: PropType) => {
         navigate("/");
     };
 
+    const update = async (updatedData: {
+        username?: string;
+        password?: string;
+    }) => {
+        const data = await userUpdate(updatedData);
+        if (!data.success) {
+            toast.error(data.message);
+            return;
+        }
+
+        setUser(data.user);
+        toast.success(data.message);
+        navigate(`/user?id=${data.user._id}`);
+    };
+
     const logout = async () => {
         const data = await userLogout();
 
@@ -86,7 +114,9 @@ const UserProvider = ({ children }: PropType) => {
     };
 
     return (
-        <UserContext.Provider value={{ signup, user, loading, login, logout }}>
+        <UserContext.Provider
+            value={{ signup, update, user, loading, login, logout }}
+        >
             {children}
         </UserContext.Provider>
     );

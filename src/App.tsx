@@ -7,6 +7,7 @@ import { Login } from "./pages/Login";
 import { UserProvider, useUser } from "./contexts/UserContext";
 import { PostProvider } from "./contexts/PostContext";
 import { UserProfile } from "./pages/User";
+import { Edit } from "./pages/Edit";
 
 function App() {
     useUser();
@@ -22,6 +23,7 @@ function App() {
                             <Route path="/signup" element={<Signup />} />
                             <Route path="/login" element={<Login />} />
                             <Route path="/user" element={<UserProfile />} />
+                            <Route path="/edit" element={<Edit />} />
                         </Route>
                     </Routes>
                 </PostProvider>

@@ -43,8 +43,6 @@ function UserProfile() {
         fetchUser();
     }, [userId]);
 
-    console.log(user);
-
     if (!userId) {
         navigate("/");
     }

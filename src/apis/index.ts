@@ -121,6 +121,22 @@ const userLogout = async () => {
     return data;
 };
 
+const userUpdate = async (data: { username?: string; password?: string }) => {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    const res = await fetch(`${BACKEND}/user`, {
+        method: "PATCH",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    });
+    const userData = await res.json();
+
+    return userData;
+};
+
 export {
     getPosts,
     createPost,
@@ -129,4 +145,5 @@ export {
     userSignup,
     userLogout,
     getUserData,
+    userUpdate,
 };
